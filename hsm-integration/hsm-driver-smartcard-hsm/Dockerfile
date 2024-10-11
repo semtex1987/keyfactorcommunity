@@ -1,4 +1,4 @@
-FROM almalinux:latest AS builder
+FROM semtex87/almalinux_ejbca:1.0.0 AS builder
 
 WORKDIR /build
 
