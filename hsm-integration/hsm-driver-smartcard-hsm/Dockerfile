@@ -3,6 +3,8 @@ FROM almalinux:latest AS builder
 WORKDIR /build
 
 RUN dnf -y update && \
+    dnf -y install yum \
+    yum install dnf-plugins-core \
     dnf -y install 'dnf-command(config-manager)' && \
     dnf -y config-manager --set-enabled crb && \
     dnf -y groupinstall "Development Tools" && \
