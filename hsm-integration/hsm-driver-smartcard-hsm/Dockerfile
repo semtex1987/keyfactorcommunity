@@ -7,9 +7,9 @@ USER 0:0
 # First use microdnf to install yum and its dependencies
 RUN microdnf -y update && \
     microdnf -y install yum yum-utils epel-release && \
-    # Enable additional repositories
+    # Enable additional repositories for AlmaLinux
     yum -y install dnf-plugins-core && \
-    yum -y config-manager --set-enabled powertools && \
+    yum -y config-manager --set-enabled almalinux-powertools && \
     yum update && \
     # Now use yum for the rest of the installations
     yum -y groupinstall "Development Tools" && \
@@ -23,7 +23,6 @@ RUN microdnf -y update && \
     make -s install
 
 FROM keyfactor/ejbca-ce:latest
-
 
 
 COPY --from=builder --chown=10001:0  /usr/lib64/libsc-hsm-pkcs11.so     /usr/lib64/pkcs11/libsc-hsm-pkcs11.so
