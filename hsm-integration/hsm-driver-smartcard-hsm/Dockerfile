@@ -10,8 +10,8 @@ RUN microdnf -y update && \
     # Enable additional repositories for AlmaLinux
     yum -y install dnf-plugins-core && \
     yum -y config-manager --set-enabled almalinux-crb && \
-    yum update && \
     /usr/bin/crb enable && \
+    yum update && \
     # Now use yum for the rest of the installations
     yum -y groupinstall "Development Tools" && \
     yum -y install openssl-devel automake autoconf libtool pkgconfig pcsc-lite-devel && \
