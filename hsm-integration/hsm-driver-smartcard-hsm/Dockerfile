@@ -9,7 +9,7 @@ RUN microdnf -y update && \
     microdnf -y install yum yum-utils epel-release && \
     # Enable additional repositories for AlmaLinux
     yum -y install dnf-plugins-core && \
-    yum -y config-manager --set-enabled almalinux-powertools && \
+    yum -y config-manager --set-enabled almalinux-crb && \
     yum update && \
     # Now use yum for the rest of the installations
     yum -y groupinstall "Development Tools" && \
