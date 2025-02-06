@@ -29,7 +29,9 @@ COPY --from=builder --chown=10001:0  /usr/lib64/libsc-hsm-pkcs11.so     /usr/lib
 COPY sc-hsm.conf /etc/pkcs11/modules/sc-hsm.conf
 
 # Install USBIP tools and kernel modules
-RUN microdnf -y update && \
+RUN mkdir -p /var/cache/yum/metadata && \
+    mkdir -p /var/cache/dnf && \
+    microdnf -y update && \
     microdnf -y install epel-release && \
     microdnf -y install pcsc-lite-libs \
     kernel-modules-extra \
