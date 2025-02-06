@@ -35,7 +35,6 @@ RUN microdnf -y update && \
     microdnf -y install epel-release && \
     microdnf -y install pcsc-lite-libs \
     kernel-modules-extra \
-    usbip-utils \
     kmod && \
     # Create necessary directories
     mkdir -p /etc/virtualhere && \
