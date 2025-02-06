@@ -37,7 +37,7 @@ RUN microdnf -y update && \
     # Create module dependencies
     depmod -a && \
     # Download VirtualHere USB Client
-    curl -sSL https://www.virtualhere.com/sites/default/files/usbclient/vhuit64 -o /usr/local/bin/vhuit64 && \
+    curl -sSL https://www.virtualhere.com/sites/default/files/usbclient/vhclientx86_64 -o /usr/local/bin/vhuit64 && \
     chmod +x /usr/local/bin/vhuit64 && \
     # Create startup script
     echo '#!/bin/bash\n\
