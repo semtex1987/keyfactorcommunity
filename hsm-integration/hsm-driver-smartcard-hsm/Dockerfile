@@ -8,6 +8,7 @@ USER 0:0
 RUN microdnf -y update && \
     microdnf -y install yum yum-utils && \
     # Now use yum for the rest of the installations
+    yum update && \
     yum -y groupinstall "Development Tools" && \
     yum -y install openssl-devel automake autoconf libtool pkgconfig pcsc-lite-devel && \
     curl --silent -D - -L "https://github.com/CardContact/sc-hsm-embedded/archive/refs/heads/master.zip" -o sc-hsm-pkcs11.zip && \
