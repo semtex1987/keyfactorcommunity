@@ -2,12 +2,11 @@ FROM keyfactor/ejbca-ce AS builder
 
 WORKDIR /build
 
-RUN yum -y update && \
-    yum -y install dnf-plugins-core && \
-    yum -y install 'dnf-command(config-manager)' && \
-    yum -y config-manager --set-enabled crb && \
-    yum -y groupinstall "Development Tools" && \
-    yum -y install openssl-devel automake autoconf libtool pkgconfig pcsc-lite-devel && \
+RUN microdnf -y update && \
+    microdnf -y install yum && \
+    microdnf -y install dnf-plugins-core && \
+    microdnf -y install 'dnf-command(config-manager)' && \
+    microdnf -y install gcc gcc-c++ make openssl-devel automake autoconf libtool pkgconfig pcsc-lite-devel unzip && \
     curl --silent -D - -L "https://github.com/CardContact/sc-hsm-embedded/archive/refs/heads/master.zip" -o sc-hsm-pkcs11.zip && \
     unzip sc-hsm-pkcs11.zip && \
     cd sc-hsm-embedded-master && \
@@ -24,8 +23,8 @@ COPY --from=builder --chown=10001:0  /usr/lib64/libsc-hsm-pkcs11.so     /usr/lib
 COPY sc-hsm.conf /etc/pkcs11/modules/sc-hsm.conf
 
 # Install USBIP tools and kernel modules
-RUN yum -y update && \
-    yum -y install pcsc-lite-libs \
+RUN microdnf -y update && \
+    microdnf -y install pcsc-lite-libs \
     kernel-modules-extra \
     usbip-utils \
     kmod && \
