@@ -1,4 +1,4 @@
-FROM semtex87/almalinux_ejbca:1.0.0 AS builder
+FROM keyfactor/ejbca-ce AS builder
 
 WORKDIR /build
 
