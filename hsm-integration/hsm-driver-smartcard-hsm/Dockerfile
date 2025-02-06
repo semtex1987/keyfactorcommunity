@@ -25,14 +25,10 @@ RUN microdnf -y update && \
 FROM keyfactor/ejbca-ce:latest
 
 
+USER root
+
 COPY --from=builder --chown=10001:0  /usr/lib64/libsc-hsm-pkcs11.so     /usr/lib64/pkcs11/libsc-hsm-pkcs11.so
 COPY sc-hsm.conf /etc/pkcs11/modules/sc-hsm.conf
-
-# Create necessary directories first
-RUN mkdir -p /var/cache/yum/metadata && \
-    mkdir -p /var/cache/dnf && \
-    mkdir -p /etc/virtualhere && \
-    chown 10001:0 /etc/virtualhere
 
 # Install USBIP tools and kernel modules
 RUN microdnf -y update && \
@@ -41,6 +37,9 @@ RUN microdnf -y update && \
     kernel-modules-extra \
     usbip-utils \
     kmod && \
+    # Create necessary directories
+    mkdir -p /etc/virtualhere && \
+    chown 10001:0 /etc/virtualhere && \
     # Load USBIP modules
     echo "usbip-core" >> /etc/modules-load.d/usbip.conf && \
     echo "usbip-host" >> /etc/modules-load.d/usbip.conf && \
@@ -58,10 +57,9 @@ RUN microdnf -y update && \
     modprobe vhci-hcd\n\
     # Start VirtualHere client\n\
     /usr/local/bin/vhuit64 -n' > /usr/local/bin/start-vh-client && \
-    chmod +x /usr/local/bin/start-vh-client && \
-    # Clean up
-    rm -rf /var/cache/yum/* /var/cache/dnf/*
+    chmod +x /usr/local/bin/start-vh-client
 
+# Switch back to non-root user
 USER 10001:0
 
 # Add an entrypoint script that starts VirtualHere client daemon
