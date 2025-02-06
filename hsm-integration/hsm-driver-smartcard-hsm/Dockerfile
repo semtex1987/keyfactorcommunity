@@ -28,10 +28,14 @@ FROM keyfactor/ejbca-ce:latest
 COPY --from=builder --chown=10001:0  /usr/lib64/libsc-hsm-pkcs11.so     /usr/lib64/pkcs11/libsc-hsm-pkcs11.so
 COPY sc-hsm.conf /etc/pkcs11/modules/sc-hsm.conf
 
-# Install USBIP tools and kernel modules
+# Create necessary directories first
 RUN mkdir -p /var/cache/yum/metadata && \
     mkdir -p /var/cache/dnf && \
-    microdnf -y update && \
+    mkdir -p /etc/virtualhere && \
+    chown 10001:0 /etc/virtualhere
+
+# Install USBIP tools and kernel modules
+RUN microdnf -y update && \
     microdnf -y install epel-release && \
     microdnf -y install pcsc-lite-libs \
     kernel-modules-extra \
@@ -46,7 +50,7 @@ RUN mkdir -p /var/cache/yum/metadata && \
     # Download VirtualHere USB Client
     curl -sSL https://www.virtualhere.com/sites/default/files/usbclient/vhclientx86_64 -o /usr/local/bin/vhuit64 && \
     chmod +x /usr/local/bin/vhuit64 && \
-    # Create startup script
+    # Create startup script (but don't run it yet)
     echo '#!/bin/bash\n\
     # Load required kernel modules\n\
     modprobe usbip-core\n\
@@ -54,11 +58,9 @@ RUN mkdir -p /var/cache/yum/metadata && \
     modprobe vhci-hcd\n\
     # Start VirtualHere client\n\
     /usr/local/bin/vhuit64 -n' > /usr/local/bin/start-vh-client && \
-    chmod +x /usr/local/bin/start-vh-client
-
-# Create directory for VirtualHere configuration if needed
-RUN mkdir -p /etc/virtualhere && \
-    chown 10001:0 /etc/virtualhere
+    chmod +x /usr/local/bin/start-vh-client && \
+    # Clean up
+    rm -rf /var/cache/yum/* /var/cache/dnf/*
 
 USER 10001:0
 
