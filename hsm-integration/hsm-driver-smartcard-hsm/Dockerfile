@@ -2,7 +2,8 @@ FROM keyfactor/ejbca-ce:latest AS builder
 
 WORKDIR /build
 
-RUN microdnf -y install yum && \
+RUN microdnf -y update && \
+    microdnf -y install yum && \
     yum -y install dnf && \
     dnf -y update && \
     dnf -y install 'dnf-command(config-manager)' && \
