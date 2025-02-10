@@ -2,7 +2,9 @@ FROM keyfactor/ejbca-ce:latest AS builder
 
 WORKDIR /build
 
-RUN dnf -y update && \
+RUN microdnf -y install yum && \
+    yum -y install dnf && \
+    dnf -y update && \
     dnf -y install 'dnf-command(config-manager)' && \
     dnf -y config-manager --set-enabled crb && \
     dnf -y groupinstall "Development Tools" && \
