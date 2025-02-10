@@ -1,4 +1,4 @@
-FROM almalinux:latest AS builder
+FROM keyfactor/ejbca-ce:latest AS builder
 
 WORKDIR /build
 
