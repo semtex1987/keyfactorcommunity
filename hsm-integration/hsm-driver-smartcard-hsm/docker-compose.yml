@@ -41,15 +41,6 @@ services:
         source: /var/run/pcscd
         target: /var/run/pcscd
         read_only: false
-
-# Enable if pcscd on the host and libpcsclite in the container are not
-# compatible (e.g. host is Debian based)
-#      - type: bind
-#        source: /usr/lib/x86_64-linux-gnu/libpcsclite.so.1.0.0
-#        target: /usr/lib64/libpcsclite.so.1.0.0
-#        read_only: true
-
- #Enable for versions before 9.1
 	  - type: bind
 	    source: ./web.properties
 	    target: /opt/keyfactor/ejbca/conf/web.properties
