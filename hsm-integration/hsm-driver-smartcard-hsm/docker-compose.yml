@@ -19,9 +19,8 @@ services:
   ejbca-node1:
     hostname: ejbca-node1
     container_name: ejbca
-#    image: keyfactor/ejbca-ce:latest
-#
-# Use local build
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
     image: semtex87/ejbca_ce-nitrokey:latest
     depends_on:
       - ejbca-database
